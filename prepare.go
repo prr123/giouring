@@ -24,6 +24,7 @@
 package giouring
 
 import (
+	"os"
 	"syscall"
 	"time"
 	"unsafe"
@@ -295,6 +296,16 @@ func (entry *SubmissionQueueEntry) PrepareRead(fd int, buf uintptr, nbytes uint3
 	entry.prepareRW(OpRead, fd, buf, nbytes, offset)
 }
 
+// go friendly alternative
+// may have to test buf for nil value
+func (entry *SubmissionQueueEntry) PrepRead(fil *os.File, buf []byte, offset uint64) {
+	nbytes := uint32(len(buf))
+    bufptr := uintptr(unsafe.Pointer(&buf[0]))
+    fd := int(fil.Fd())
+	entry.prepareRW(OpRead, fd, bufptr, nbytes, offset)
+	return
+}
+
 // liburing: io_uring_prep_read_fixed - https://manpages.debian.org/unstable/liburing-dev/io_uring_prep_read_fixed.3.en.html
 func (entry *SubmissionQueueEntry) PrepareReadFixed(
 	fd int,
@@ -544,6 +555,17 @@ func (entry *SubmissionQueueEntry) PrepareUnlinkat(dfd int, path uintptr, flags 
 func (entry *SubmissionQueueEntry) PrepareWrite(fd int, buf uintptr, nbytes uint32, offset uint64) {
 	entry.prepareRW(OpWrite, fd, buf, nbytes, offset)
 }
+
+// go friendly alternative
+// may have to test buf for nil value
+func (entry *SubmissionQueueEntry) PrepWrite(fil *os.File, buf []byte, offset uint64) {
+	nbytes := uint32(len(buf))
+    bufptr := uintptr(unsafe.Pointer(&buf[0]))
+    fd := int(fil.Fd())
+	entry.prepareRW(OpWrite, fd, bufptr, nbytes, offset)
+	return
+}
+
 
 // liburing: io_uring_prep_write_fixed - https://manpages.debian.org/unstable/liburing-dev/io_uring_prep_write_fixed.3.en.html
 func (entry *SubmissionQueueEntry) PrepareWriteFixed(
