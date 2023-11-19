@@ -298,7 +298,7 @@ func (entry *SubmissionQueueEntry) PrepareRead(fd int, buf uintptr, nbytes uint3
 
 // go friendly alternative
 // may have to test buf for nil value
-func (entry *SubmissionQueueEntry) PrepRead(fil *os.File, buf []byte, offset uint64) {
+func (entry *SubmissionQueueEntry) PrepFRead(fil *os.File, buf []byte, offset uint64) {
 	nbytes := uint32(len(buf))
     bufptr := uintptr(unsafe.Pointer(&buf[0]))
     fd := int(fil.Fd())
@@ -558,7 +558,7 @@ func (entry *SubmissionQueueEntry) PrepareWrite(fd int, buf uintptr, nbytes uint
 
 // go friendly alternative
 // may have to test buf for nil value
-func (entry *SubmissionQueueEntry) PrepWrite(fil *os.File, buf []byte, offset uint64) {
+func (entry *SubmissionQueueEntry) PrepFWrite(fil *os.File, buf []byte, offset uint64) {
 	nbytes := uint32(len(buf))
     bufptr := uintptr(unsafe.Pointer(&buf[0]))
     fd := int(fil.Fd())
