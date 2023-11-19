@@ -554,6 +554,7 @@ func (ring *Ring) FreeBufRing(bgid int) error {
 	return err
 }
 
+// returns ring file descriptor
 func (ring *Ring) RingFd() int {
 	return ring.ringFd
 }
