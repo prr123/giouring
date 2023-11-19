@@ -21,6 +21,9 @@
 // TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+// 1. modified by prr
+// type ring
+//
 package giouring
 
 import (
@@ -87,6 +90,16 @@ type Ring struct {
 	// nolint: unused
 	pad2 uint32
 }
+
+// add
+func (ring *Ring) GetRingFd() (int) {
+	return ring.ringFd
+}
+
+func (ring *Ring) GetEnterRingFd() (int) {
+	return ring.enterRingFd
+}
+
 
 // liburing: io_uring_cqe_shift
 func (ring *Ring) cqeShift() uint32 {
